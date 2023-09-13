@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Supplier;
-use App\SupplierProduct;
-use App\StockProductCategory;
+use App\Models\Supplier;
+use App\Models\SupplierProduct;
+use App\Models\StockProductCategory;
 use DataTables;
 
 class SupplierController extends Controller
@@ -93,7 +93,7 @@ class SupplierController extends Controller
         ]);
 
         $supplier = Supplier::findOrFail($id);
-        
+
         $supplier->update([
             'name' => $request->name,
             'address' => $request->address,
@@ -125,11 +125,11 @@ class SupplierController extends Controller
             return redirect()->back();
         }
     }
-    
+
     public function getAllSuppliers()
     {
         $suppliers = Supplier::all();
-        
+
         return DataTables::of($suppliers)->make();
     }
 

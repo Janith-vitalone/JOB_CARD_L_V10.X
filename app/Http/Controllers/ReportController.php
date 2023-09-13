@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Job;
+use App\Models\Job;
 use Illuminate\Http\Request;
-use App\OtherPayment;
-use App\PaymentCategory;
-use App\Invoice;
-use App\Payment;
-use App\StockIn;
-use App\Stock;
-use App\StockProductCategory;
-use App\SupplierProduct;
-use App\Supplier;
-use App\Client;
+use App\Models\OtherPayment;
+use App\Models\PaymentCategory;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\StockIn;
+use App\Models\Stock;
+use App\Models\StockProductCategory;
+use App\Models\SupplierProduct;
+use App\Models\Supplier;
+use App\Models\Client;
 use Carbon\Carbon;
 use DataTables;
 
 class ReportController extends Controller
 {
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     public function showItemsReport()
     {
@@ -486,7 +486,7 @@ class ReportController extends Controller
 
                 return DataTables::collection($reportData)->toJson();
             }
-            
+
             $jobs = $jobs->whereHas('invoice', function($q) {
                 $q->where('deleted_at', null);
             })->get();
@@ -568,11 +568,11 @@ class ReportController extends Controller
                     foreach($jobs as $key => $item)
                     {
                         $paid = 0;
-        
+
                         if($item->isInvoiced())
                         {
                             $paid = $item->invoice->payments->sum('paid_amount');
-        
+
                             $data = [
                                 'id' => $key+1,
                                 'job_no' => $item->job_no,
@@ -586,7 +586,7 @@ class ReportController extends Controller
                                 'balance_amount' => $item->jobHasTasks->sum('total') + $item->jobHasProducts->sum('total') - $paid,
                                 'created_at' => $item->invoice->created_at->toDateTimeString(),
                             ];
-        
+
                             array_push($reportData, $data);
                         }
                         else
@@ -604,11 +604,11 @@ class ReportController extends Controller
                                 'balance_amount' => '0.00',
                                 'created_at' => '--',
                             ];
-        
+
                             array_push($reportData, $data);
                         }
                     }
-        
+
                     return DataTables::collection($reportData)->toJson();
                 }
                 $jobs = $jobs->where('client_id', $client)->get();
@@ -616,11 +616,11 @@ class ReportController extends Controller
                 foreach($jobs as $key => $item)
                 {
                     $paid = 0;
-    
+
                     if($item->isInvoiced())
                     {
                         $paid = $item->invoice->payments->sum('paid_amount');
-    
+
                         $data = [
                             'id' => $key+1,
                             'job_no' => $item->job_no,
@@ -634,7 +634,7 @@ class ReportController extends Controller
                             'balance_amount' => $item->jobHasTasks->sum('total') + $item->jobHasProducts->sum('total') - $paid,
                             'created_at' => $item->invoice->created_at->toDateTimeString(),
                         ];
-    
+
                         array_push($reportData, $data);
                     }
                     else
@@ -652,11 +652,11 @@ class ReportController extends Controller
                             'balance_amount' => '0.00',
                             'created_at' => '--',
                         ];
-    
+
                         array_push($reportData, $data);
                     }
                 }
-    
+
                 return DataTables::collection($reportData)->toJson();
             }
 
@@ -673,11 +673,11 @@ class ReportController extends Controller
                 foreach($jobs as $key => $item)
                 {
                     $paid = 0;
-    
+
                     if($item->isInvoiced())
                     {
                         $paid = $item->invoice->payments->sum('paid_amount');
-    
+
                         $data = [
                             'id' => $key+1,
                             'job_no' => $item->job_no,
@@ -691,7 +691,7 @@ class ReportController extends Controller
                             'balance_amount' => $item->jobHasTasks->sum('total') + $item->jobHasProducts->sum('total') - $paid,
                             'created_at' => $item->invoice->created_at->toDateTimeString(),
                         ];
-    
+
                         array_push($reportData, $data);
                     }
                     else
@@ -709,11 +709,11 @@ class ReportController extends Controller
                             'balance_amount' => '0.00',
                             'created_at' => '--',
                         ];
-    
+
                         array_push($reportData, $data);
                     }
                 }
-    
+
                 return DataTables::collection($reportData)->toJson();
             }
 
@@ -774,7 +774,7 @@ class ReportController extends Controller
     }
 
     public function getOtherPaymentReportData(Request $request)
-    {   
+    {
         $reportData = [];
 
         $payment_category = $request->payment_category;
@@ -805,8 +805,8 @@ class ReportController extends Controller
                     array_push($reportData, $data);
                 }
                 return DataTables::collection($reportData)->toJson();
-            } 
-            
+            }
+
             $today = Carbon::now();
             $today = $today->toDateString();
             $payments = OtherPayment::whereBetween('created_at',[$from,$today]);
@@ -934,7 +934,7 @@ class ReportController extends Controller
         $expense = number_format($company_expense + $other_payment, 2, '.', '');
 
         $total_income = $income - $expense;
-        
+
 
         if(!empty($income))
         {
@@ -1091,7 +1091,7 @@ class ReportController extends Controller
                     {
                         $paid = 0;
                         $paid = $invoice->payments->sum('paid_amount');
-                        
+
                         $data = [
                             'id' => $key+1,
                             'invoice_no' => $invoice->invoice_no,
@@ -1103,9 +1103,9 @@ class ReportController extends Controller
                             'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                             'created_at' => $invoice->created_at->toDateTimeString(),
                         ];
-                        
+
                         array_push($reportData, $data);
-                    } 
+                    }
                 }else{
                     $invoices = $invoices->where('payment_status', $invoiced)->whereBetween('created_at',[$from_date,$to_date])->get();
 
@@ -1113,7 +1113,7 @@ class ReportController extends Controller
                     {
                         $paid = 0;
                         $paid = $invoice->payments->sum('paid_amount');
-                        
+
                         $data = [
                             'id' => $key+1,
                             'invoice_no' => $invoice->invoice_no,
@@ -1125,9 +1125,9 @@ class ReportController extends Controller
                             'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                             'created_at' => $invoice->created_at->toDateTimeString(),
                         ];
-                        
+
                         array_push($reportData, $data);
-                    } 
+                    }
                 }
 
             }else{
@@ -1137,7 +1137,7 @@ class ReportController extends Controller
                 {
                     $paid = 0;
                     $paid = $invoice->payments->sum('paid_amount');
-                    
+
                     $data = [
                         'id' => $key+1,
                         'invoice_no' => $invoice->invoice_no,
@@ -1149,9 +1149,9 @@ class ReportController extends Controller
                         'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                         'created_at' => $invoice->created_at->toDateTimeString(),
                     ];
-                    
+
                     array_push($reportData, $data);
-                } 
+                }
             }
             return DataTables::collection($reportData)->toJson();
         }
@@ -1168,7 +1168,7 @@ class ReportController extends Controller
                     {
                         $paid = 0;
                         $paid = $invoice->payments->sum('paid_amount');
-                        
+
                         $data = [
                             'id' => $key+1,
                             'invoice_no' => $invoice->invoice_no,
@@ -1180,9 +1180,9 @@ class ReportController extends Controller
                             'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                             'created_at' => $invoice->created_at->toDateTimeString(),
                         ];
-                        
+
                         array_push($reportData, $data);
-                    } 
+                    }
                 }else{
                     $invoices = $invoices->where('payment_status', $invoiced)->whereBetween('created_at',[$from_date,$to_date])->get();
 
@@ -1190,7 +1190,7 @@ class ReportController extends Controller
                     {
                         $paid = 0;
                         $paid = $invoice->payments->sum('paid_amount');
-                        
+
                         $data = [
                             'id' => $key+1,
                             'invoice_no' => $invoice->invoice_no,
@@ -1202,18 +1202,18 @@ class ReportController extends Controller
                             'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                             'created_at' => $invoice->created_at->toDateTimeString(),
                         ];
-                        
+
                         array_push($reportData, $data);
-                    } 
+                    }
                 }
             }else{
                 $invoices = $invoices->where('payment_status', $invoiced)->get();
-            
+
                 foreach($invoices as $key => $invoice)
                 {
                     $paid = 0;
                     $paid = $invoice->payments->sum('paid_amount');
-                    
+
                     $data = [
                         'id' => $key+1,
                         'invoice_no' => $invoice->invoice_no,
@@ -1225,9 +1225,9 @@ class ReportController extends Controller
                         'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                         'created_at' => $invoice->created_at->toDateTimeString(),
                     ];
-                    
+
                     array_push($reportData, $data);
-                } 
+                }
             }
             return DataTables::collection($reportData)->toJson();
         }
@@ -1244,7 +1244,7 @@ class ReportController extends Controller
                     {
                         $paid = 0;
                         $paid = $invoice->payments->sum('paid_amount');
-                        
+
                         $data = [
                             'id' => $key+1,
                             'invoice_no' => $invoice->invoice_no,
@@ -1256,9 +1256,9 @@ class ReportController extends Controller
                             'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                             'created_at' => $invoice->created_at->toDateTimeString(),
                         ];
-                        
+
                         array_push($reportData, $data);
-                    } 
+                    }
                 }else{
                     $invoices = $invoices->where('payment_status', $invoiced)->whereBetween('created_at',[$from_date,$to_date])->get();
 
@@ -1266,7 +1266,7 @@ class ReportController extends Controller
                     {
                         $paid = 0;
                         $paid = $invoice->payments->sum('paid_amount');
-                        
+
                         $data = [
                             'id' => $key+1,
                             'invoice_no' => $invoice->invoice_no,
@@ -1278,18 +1278,18 @@ class ReportController extends Controller
                             'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                             'created_at' => $invoice->created_at->toDateTimeString(),
                         ];
-                        
+
                         array_push($reportData, $data);
-                    } 
+                    }
                 }
             }else{
                 $invoices = $invoices->where('payment_status', $invoiced)->get();
-            
+
                 foreach($invoices as $key => $invoice)
                 {
                     $paid = 0;
                     $paid = $invoice->payments->sum('paid_amount');
-                    
+
                     $data = [
                         'id' => $key+1,
                         'invoice_no' => $invoice->invoice_no,
@@ -1301,13 +1301,13 @@ class ReportController extends Controller
                         'balance_amount' => number_format($invoice->grand_total - $paid, 2, '.', ''),
                         'created_at' => $invoice->created_at->toDateTimeString(),
                     ];
-                    
+
                     array_push($reportData, $data);
-                } 
+                }
             }
             return DataTables::collection($reportData)->toJson();
         }
-        else 
+        else
         {
             if($from_date != null){
                 if($to_date == null){
@@ -1434,7 +1434,7 @@ class ReportController extends Controller
             }
             return DataTables::collection($reportData)->toJson();
         }
-        
+
     }
 
     public function showStockReport()

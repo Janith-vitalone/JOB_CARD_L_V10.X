@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Form;
-use App\Permission;
+use App\Models\Form;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use DataTables;
 
 class PermissionController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     /**
      * Display a listing of the resource.

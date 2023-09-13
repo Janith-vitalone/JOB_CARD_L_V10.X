@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\StockProductCategory;
-use App\StockProduct;
-use App\SupplierProduct;
-use App\Supplier;
-use App\Unit;
-use App\Stock;
-use App\StockIn;
-use App\StockInProduct;
+use App\Models\StockProductCategory;
+use App\Models\StockProduct;
+use App\Models\SupplierProduct;
+use App\Models\Supplier;
+use App\Models\Unit;
+use App\Models\Stock;
+use App\Models\StockIn;
+use App\Models\StockInProduct;
 use DataTables;
 
 class StockProductCategoriesController extends Controller
@@ -92,7 +92,7 @@ class StockProductCategoriesController extends Controller
         ]);
 
         $stockProductCategory = StockProductCategory::findOrFail($id);
-        
+
         $stockProductCategory->update([
             'name' => $request->name,
         ]);
@@ -110,10 +110,10 @@ class StockProductCategoriesController extends Controller
     public function destroy($id)
     {
         $stockProductCategory = StockProductCategory::findOrFail($id);
-        
+
         // Check payment Category has assigned to other payment
         $productCount = SupplierProduct::where('stock_product_category_id', $id)->count();
-        
+
         if($productCount != 0){
             session()->flash('warning', 'Unable to remove Product Category, Already assigned to product!');
             return redirect()->back();
@@ -128,7 +128,7 @@ class StockProductCategoriesController extends Controller
     public function getAllCategories()
     {
         $stockProductCategories = StockProductCategory::all();
-        
+
         return DataTables::of($stockProductCategories)->make();
     }
 }

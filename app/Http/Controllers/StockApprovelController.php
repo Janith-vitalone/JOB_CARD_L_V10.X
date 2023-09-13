@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\StockApprovel;
-use App\Stock;
+use App\Models\StockApprovel;
+use App\Models\Stock;
 use DataTables;
 
 class StockApprovelController extends Controller
 {
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'store', 'update', 'destroy', 'edit', 'show']);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'store', 'update', 'destroy', 'edit', 'show']);
+//    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\\Illuminate\Http\Response
      */
     public function index()
     {
@@ -72,7 +72,7 @@ class StockApprovelController extends Controller
         $stock->update([
             'qty' => $approval->qty,
         ]);
-        
+
         $approval->update([
             'status'=> $status,
         ]);

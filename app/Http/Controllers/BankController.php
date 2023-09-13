@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Bank;
-use App\Payment;
+use App\Models\Bank;
+use App\Models\Payment;
 use DataTables;
 
 class BankController extends Controller
@@ -86,7 +86,7 @@ class BankController extends Controller
         ]);
 
         $bank = Bank::findOrFail($id);
-        
+
         $bank->update([
             'name' => $request->name,
         ]);
@@ -107,7 +107,7 @@ class BankController extends Controller
 
         // Check payment Category has assigned to other payment
         $paymentCount = Payment::where('bank', $id)->count();
-        
+
         if($paymentCount != 0){
             session()->flash('warning', 'Unable to remove Bank, Already assigned to Payment!');
             return redirect()->back();
@@ -122,7 +122,7 @@ class BankController extends Controller
     public function getAllBanks()
     {
         $banks = Bank::all();
-        
+
         return DataTables::of($banks)->make();
     }
 }

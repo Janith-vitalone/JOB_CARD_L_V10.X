@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\OtherPayment;
-use App\PaymentCategory;
+use App\Models\OtherPayment;
+use App\Models\PaymentCategory;
 use DataTables;
 
 class OtherPaymentController extends Controller
@@ -92,7 +92,7 @@ class OtherPaymentController extends Controller
     {
         $payment = OtherPayment::with('paymentCategory')->findOrFail($id);
         $pay_categories = PaymentCategory::all();
-        
+
         return view('dashboard.payments.other_payment.edit', [
             'payment' => $payment,
             'pay_categories' => $pay_categories,
@@ -197,7 +197,7 @@ class OtherPaymentController extends Controller
     public function getAllPayments()
     {
         $payments = OtherPayment::with('paymentCategory')->get();
-        
+
         return DataTables::of($payments)->make();
     }
 }

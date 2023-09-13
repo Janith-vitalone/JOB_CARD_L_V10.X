@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PaymentCategory;
-use App\OtherPayment;
+use App\Models\PaymentCategory;
+use App\Models\OtherPayment;
 use DataTables;
 
 class PaymentCategoriesController extends Controller
@@ -86,7 +86,7 @@ class PaymentCategoriesController extends Controller
         ]);
 
         $paymentCategory = PaymentCategory::findOrFail($id);
-        
+
         $paymentCategory->update([
             'category' => $request->name,
         ]);
@@ -107,7 +107,7 @@ class PaymentCategoriesController extends Controller
 
         // Check payment Category has assigned to other payment
         $paymentCount = OtherPayment::where('paymentCategories_id', $id)->count();
-        
+
         if($paymentCount != 0){
             session()->flash('warning', 'Unable to remove Payment Category, Already assigned to other payment!');
             return redirect()->back();
@@ -122,7 +122,7 @@ class PaymentCategoriesController extends Controller
     public function getAllCategories()
     {
         $paymentCategories = PaymentCategory::all();
-        
+
         return DataTables::of($paymentCategories)->make();
     }
 }

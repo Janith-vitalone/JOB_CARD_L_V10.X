@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Jobs\QuotationEmail;
-use App\Quotation;
+use App\Models\Job;
+use App\Models\Quotation;
 use Mail;
 use App\Mail\quotationMail;
 

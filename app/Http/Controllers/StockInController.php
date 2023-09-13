@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Stock;
-use App\StockIn;
-use App\StockInProduct;
-use App\Supplier;
-use App\SupplierProduct;
-use App\StockProduct;
-use App\StockProductCategory;
+use App\Models\Stock;
+use App\Models\StockIn;
+use App\Models\StockInProduct;
+use App\Models\Supplier;
+use App\Models\SupplierProduct;
+use App\Models\StockProduct;
+use App\Models\StockProductCategory;
 use DataTables;
 
 use Illuminate\Http\Request;
@@ -122,7 +122,7 @@ class StockInController extends Controller
             $stockinProduct->delete();
         }
         $stockin->delete();
-        
+
         session()->flash('success', 'StockIn Removed!');
         return redirect()->back();
     }
@@ -135,7 +135,7 @@ class StockInController extends Controller
             'invoice' => 'required',
             'TableData' => 'required',
         ]);
-        
+
         $stock_in = StockIn::create([
             'supplier_id' => $request->supplier,
             'invoice_no' => $request->invoice,
@@ -170,9 +170,9 @@ class StockInController extends Controller
             } else {
                 $product_old_qty = $stock_count[0]->qty;
                 $new_qty = $qty + $product_old_qty;
-                
+
                 $stock = Stock::findOrFail($stock_count[0]->id);
-        
+
                 $stock->update([
                     'qty' => $new_qty,
                 ]);
@@ -185,7 +185,7 @@ class StockInController extends Controller
     public function getAllStockIns()
     {
         $stockin = StockIn::with('supplier')->get();
-        
+
         return DataTables::of($stockin)->make();
     }
 }

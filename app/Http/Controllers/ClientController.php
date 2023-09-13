@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
-use App\Invoice;
-use App\Job;
-use App\Quotation;
+use App\Models\Client;
+use App\Models\Invoice;
+use App\Models\Job;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 use DataTables;
 
 class ClientController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'update', 'destroy', 'edit', 'show']);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'update', 'destroy', 'edit', 'show']);
+//    }
 
     /**
      * Display a listing of the resource.

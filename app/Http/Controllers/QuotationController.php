@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
-use App\Quotation;
-use App\QuotationHasItem;
+use App\Models\Client;
+use App\Models\Quotation;
+use App\Models\QuotationHasItem;
 use Illuminate\Http\Request;
 use Validator;
 use DataTables;
@@ -16,12 +16,12 @@ use App\Mail\quotationMail;
 class QuotationController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     /**
      * Display a listing of the resource.

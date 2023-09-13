@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\StockProductCategory;
-use App\StockProduct;
+use App\Models\StockProductCategory;
+use App\Models\StockProduct;
 use DataTables;
 
 class StockProductsController extends Controller
@@ -102,7 +102,7 @@ class StockProductsController extends Controller
         ]);
 
         $stockProduct = StockProduct::findOrFail($id);
-        
+
         $stockProduct->update([
             'stock_product_category_id' => $request->category,
             'name' => $request->name,
@@ -136,7 +136,7 @@ class StockProductsController extends Controller
     public function getAllProducts()
     {
         $stockProducts = StockProduct::with('stockProductCategory')->get();
-        
+
         return DataTables::of($stockProducts)->make();
     }
 }

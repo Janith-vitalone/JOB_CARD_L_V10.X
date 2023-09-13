@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Stock;
-use App\Substock;
-use App\UserHasRole;
-use App\StockApprovel;
+use App\Models\Stock;
+use App\Models\Substock;
+use App\Models\UserHasRole;
+use App\Models\StockApprovel;
 use DataTables;
 
 use Illuminate\Http\Request;
@@ -79,7 +79,7 @@ class StockController extends Controller
         ]);
         $currentUser = auth()->user();
         $user = $currentUser->id;
-        
+
         //check the user role
         $role = UserHasRole::where('user_id',$user)->select('user_role_id')->get();
         $userRole = $role[0]->user_role_id;
@@ -127,7 +127,7 @@ class StockController extends Controller
                 $substock->delete();
             }
         }
-        
+
         $stock->delete();
 
         session()->flash('success', 'Stock Removed!');
@@ -137,7 +137,7 @@ class StockController extends Controller
     public function getAllStocks()
     {
         $stock = Stock::with('stockProductCategory','product',)->get();
-        
+
         return DataTables::of($stock)->make();
     }
 }

@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
-use App\Job;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Job;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-use App\StockProductCategory;
-use App\Stock;
-use App\StockProduct;
-use App\InvoiceHasProduct;
-use App\Client;
+use App\Models\StockProductCategory;
+use App\Models\Stock;
+use App\Models\StockProduct;
+use App\Models\InvoiceHasProduct;
+use App\Models\Client;
 
 class InvoiceController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     /**
      * Display a listing of the resource.

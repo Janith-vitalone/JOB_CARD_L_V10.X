@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Branch;
-use App\Payment;
+use App\Models\Branch;
+use App\Models\Payment;
 use DataTables;
 
 class BranchController extends Controller
@@ -86,7 +86,7 @@ class BranchController extends Controller
         ]);
 
         $branch = Branch::findOrFail($id);
-        
+
         $branch->update([
             'name' => $request->name,
         ]);
@@ -107,7 +107,7 @@ class BranchController extends Controller
 
         // Check payment Category has assigned to other payment
         $paymentCount = Payment::where('branch', $id)->count();
-        
+
         if($paymentCount != 0){
             session()->flash('warning', 'Unable to remove Branch, Already assigned to Payment!');
             return redirect()->back();
@@ -122,7 +122,7 @@ class BranchController extends Controller
     public function getAllBranchs()
     {
         $branchs = Branch::all();
-        
+
         return DataTables::of($branchs)->make();
     }
 }

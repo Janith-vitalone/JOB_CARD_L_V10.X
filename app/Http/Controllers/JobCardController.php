@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
-use App\Finishing;
-use App\Format;
-use App\Job;
-use App\JobHasProduct;
-use App\JobHasTask;
-use App\Lamination;
-use App\Material;
-use App\Printer;
-use App\PrintType;
-use App\Product;
-use App\Unit;
-use App\User;
-use App\Quotation;
+use App\Models\Client;
+use App\Models\Finishing;
+use App\Models\Format;
+use App\Models\Job;
+use App\Models\JobHasProduct;
+use App\Models\JobHasTask;
+use App\Models\Lamination;
+use App\Models\Material;
+use App\Models\Printer;
+use App\Models\PrintType;
+use App\Models\Product;
+use App\Models\Unit;
+use App\Models\User;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -33,12 +33,12 @@ use App\Payment;
 class JobCardController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     /**
      * Display a listing of the resource.

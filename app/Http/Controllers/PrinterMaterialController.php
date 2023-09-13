@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Material;
-use App\Printer;
+use App\Models\Material;
+use App\Models\Printer;
 use Illuminate\Http\Request;
 use DataTables;
 
 class PrinterMaterialController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     /**
      * Display a listing of the resource.

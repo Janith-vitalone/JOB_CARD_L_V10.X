@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Finishing;
+use App\Models\Finishing;
 use Illuminate\Http\Request;
 use DataTables;
 
 class FinishingController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'store', 'update', 'destroy', 'edit', 'show']);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'store', 'update', 'destroy', 'edit', 'show']);
+//    }
 
     /**
      * Display a listing of the resource.

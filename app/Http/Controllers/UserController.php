@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DataTables;
@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'edit', 'store', 'destroy', 'show']);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'edit', 'store', 'destroy', 'show']);
+//    }
 
     /**
      * Display a listing of the resource.

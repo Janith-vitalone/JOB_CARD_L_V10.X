@@ -32,6 +32,7 @@ use App\Http\Controllers\SupplierProductsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\QuotationQueueEmails;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,13 +46,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -150,7 +151,7 @@ Route::middleware('auth')->group(function () {
     Route::get('quotation/get/all', [QuotationController::class, 'getAllQuotations']);
     Route::get('quotation/to/pdf/{id}', [QuotationController::class, 'pdf']);
     Route::get('quotation/change/status/{id}/{status}', [QuotationController::class, 'changeQuoteStatus']);
-    Route::get('sending-quotation', 'QuotationQueueEmails@sendQuotationEmails');
+    Route::get('sending-quotation', [QuotationQueueEmails::class, 'sendQuotationEmails']);
 
     //Accounts Routes
     Route::resource('payment-category',PaymentCategoriesController::class);

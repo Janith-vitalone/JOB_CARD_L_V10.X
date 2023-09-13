@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\UserRole;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Str;
@@ -10,12 +10,12 @@ use Illuminate\Support\Str;
 class UserRoleController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller);
+//    }
 
     /**
      * Display a listing of the resource.

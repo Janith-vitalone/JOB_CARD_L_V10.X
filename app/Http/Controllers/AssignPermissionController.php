@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Permission;
-use App\UserRole;
+use App\Models\Permission;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use DataTables;
 
 class AssignPermissionController extends Controller
 {
 
-    public function __construct()
-    {
-        $controller = explode('@', request()->route()->getAction()['controller'])[0];
-
-        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'store', 'update', 'destroy', 'edit', 'show']);
-    }
+//    public function __construct()
+//    {
+//        $controller = explode('@', request()->route()->getAction()['controller'])[0];
+//
+//        $this->middleware('allowed:' . $controller)->only(['index', 'create', 'store', 'update', 'destroy', 'edit', 'show']);
+//    }
 
     /**
      * Display a listing of the resource.

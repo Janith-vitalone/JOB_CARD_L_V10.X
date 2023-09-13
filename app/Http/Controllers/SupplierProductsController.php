@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\StockProductCategory;
-use App\SupplierProduct;
-use App\Supplier;
-use App\Unit;
-use App\Stock;
-use App\StockIn;
-use App\StockInProduct;
+use App\Models\StockProductCategory;
+use App\Models\SupplierProduct;
+use App\Models\Supplier;
+use App\Models\Unit;
+use App\Models\Stock;
+use App\Models\StockIn;
+use App\Models\StockInProduct;
 use DataTables;
 
 class SupplierProductsController extends Controller
@@ -67,11 +67,11 @@ class SupplierProductsController extends Controller
                 'height' => $request->height,
                 'width' => $request->width,
             ]);
-    
+
             session()->flash('success', 'Supplier Product Created!');
             return redirect()->back();
         }
-        
+
         SupplierProduct::create([
             'supplier_id' => $request->supplier,
             'stock_product_category_id' => $request->category,
@@ -131,7 +131,7 @@ class SupplierProductsController extends Controller
         ]);
 
         $supplierProduct = SupplierProduct::findOrFail($id);
-        
+
         if(!empty($request->width))
         {
             $request->validate([
@@ -147,11 +147,11 @@ class SupplierProductsController extends Controller
                 'height' => $request->height,
                 'width' => $request->width,
             ]);
-    
+
             session()->flash('success', 'Supplier Product Updated!');
             return redirect()->back();
         }
-        
+
         $supplierProduct->update([
             'supplier_id' => $request->supplier,
             'stock_product_category_id' => $request->category,
@@ -196,7 +196,7 @@ class SupplierProductsController extends Controller
     public function getAllProducts()
     {
         $supplierProducts = SupplierProduct::with('stockProductCategory','supplier','unit')->get();
-        
+
         return DataTables::of($supplierProducts)->make();
     }
 
